@@ -1,0 +1,30 @@
+to create a microservice = nest new app <name>
+go inside main.ts cnage create > createMicroservice
+ {
+    transport: Transport.TCP,
+    options: {
+      host: 'localhost',
+      port: 3002, // chabge the port
+    },
+  }
+
+remove the port from app.listen()
+
+
+api-gateway
+go to app.module.ts
+
+import: [
+     ClientsModule.register([
+      {
+        name: 'STORE_MANAGEMENT',
+        transport: Transport.TCP,
+        options: { host: 'localhost', port: 3001 },
+      },
+      {
+        name: 'CUSTOMER_MANAGEMENT',
+        transport: Transport.TCP,
+        options: { host: 'localhost', port: 3002 },
+      },
+    ]),
+  ],
