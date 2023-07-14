@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CustomerManagementService {
-  getHello(): string {
-    return 'Hello World!';
+  // constructor() {}
+  getCustomer(data: string): string {
+    return data;
+  }
+
+  postCustomer(data: unknown) {
+    return data;
   }
 }

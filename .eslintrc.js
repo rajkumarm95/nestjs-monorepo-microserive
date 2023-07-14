@@ -5,11 +5,10 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin','unused-imports'],
+  plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'plugin:unused-imports/recommended',
   ],
   root: true,
   env: {
@@ -18,18 +17,31 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    'no-unused-vars': 'error',
-    'no-unused-imports': 'error',
-    'no-console': 'error',
-    'eqeqeq': 'error',
-    'curly': 'error',
-    'camelcase': 'error',
-    'no-mixed-spaces-and-tabs': 'error',
-    'no-multiple-empty-lines': ['error', { 'max': 1, 'maxEOF': 1 }],
-    'prefer-const': 'error'
-  }  
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+        printWidth: 80,
+        tabWidth: 2,
+        singleQuote: true,
+        semi: true,
+        trailingComma: 'es5',
+      },
+    ],
+    'no-console': 'warn',
+    'no-debugger': 'error',
+    camelcase: ['error', { allow: ['id_token'] }],
+    eqeqeq: 'error',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
+    ],
+    '@typescript-eslint/no-explicit-any': 'warn',
+    // 'unused-imports/no-unused-imports-ts': 'error',
+    'prefer-const': [
+      'error',
+      { destructuring: 'any', ignoreReadBeforeAssign: false },
+    ],
+    'no-var': 'error',
+  },
 };

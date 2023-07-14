@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule } from '@nestjs/config';
+import { Log } from '../../../logger';
 
 @Module({
   imports: [
@@ -17,8 +19,16 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         options: { host: 'localhost', port: 3002 },
       },
     ]),
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: Log,
+      useClass: Log,
+    },
+  ],
+  exports: [Log],
 })
 export class AppModule {}

@@ -1,13 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
-import { StoreManagementService } from './store_management.service';
+import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
+import { StoreManagementService } from './store_management.service';
 
 @Controller()
 export class StoreManagementController {
-  // constructor() {}
+  constructor(
+    private readonly storeManagementService: StoreManagementService
+  ) {}
 
   @MessagePattern('getProducts')
-  getHello(data): string {
-    return data;
+  getStore(data: string): string {
+    return this.storeManagementService.getStore(data);
   }
 }

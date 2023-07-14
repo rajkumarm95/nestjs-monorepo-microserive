@@ -1,15 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { CustomerManagementService } from './customer_management.service';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class CustomerManagementController {
   constructor(
-    private readonly customerManagementService: CustomerManagementService,
+    private readonly customerManagementService: CustomerManagementService
   ) {}
 
-  @EventPattern('customer-pattern')
-  getHello(data) {
-    console.log(data);
+  @EventPattern({ ctx: 'customer-pattern' })
+  getCustomer(data: string): string {
+    return this.customerManagementService.getCustomer(data);
+  }
+
+  @MessagePattern({ pattern: 'customer-pattern2' })
+  postCustomer(data: unknown) {
+    return this.customerManagementService.postCustomer(data);
   }
 }

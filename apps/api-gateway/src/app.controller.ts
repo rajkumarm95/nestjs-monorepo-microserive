@@ -1,40 +1,29 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  Param,
-  Post,
-  Query,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { AppService } from './app.service';
-import { ClientProxy } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
-  constructor(
-    @Inject('STORE_MANAGEMENT') private store: ClientProxy,
-    @Inject('CUSTOMER_MANAGEMENT') private customer: ClientProxy,
-  ) {}
+  constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello() {
-    return this.store.send('getProducts', 'Hello World!');
+  getStore(): Observable<string> {
+    return this.appService.getStore();
   }
 
   @Get('customer')
-  getCustomer() {
-    return this.customer.emit('customer-pattern', 'Hello customer!');
+  getCustomer(): Observable<string> {
+    const pattern = { ctx: 'customer-pattern' };
+    return this.appService.getCustomer(pattern);
   }
 
-  @Post('customer2/:id')
-  getCustomer2(
-    @Body() body: any,
-    @Param('id') Param: any,
-    @Query() query: any,
-  ) {
-    return this.customer.send('customer-pattern', { body, Param, query });
+  @Post('customer/:id')
+  postCustomer(
+    @Body() body: unknown,
+    @Param('id') param: unknown,
+    @Query() query: unknown
+  ): Observable<void> {
+    const pattern = { pattern: 'customer-pattern2' };
+    return this.appService.postCustomer(pattern, body, param, query);
   }
 }
